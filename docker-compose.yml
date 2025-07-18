@@ -1,7 +1,7 @@
 
 services:
   backend:
-    image: lms-backend:v1.0.8
+    image: rooholazamani/lms-backend:v1.0.8
     build:
       context: ./backend
       dockerfile: Dockerfile
@@ -9,8 +9,8 @@ services:
     ports:
       - "8080:8080"
     volumes:
-      - C:\Users\pc\Desktop\lms\data:/app/data
-      - C:\Users\pc\Desktop\lms\uploads:/app/uploads
+      - /root/data:/app/data
+      - /root//uploads:/app/uploads
     environment:
       - SPRING_PROFILES_ACTIVE=docker
       - SERVER_PORT=8080
@@ -21,7 +21,7 @@ services:
     restart: unless-stopped
 
   frontend:
-    image: lms-frontend:v1.0.8
+    image: rooholazamani/lms-frontend:v1.0.8
     build:
       context: ./frontend
       dockerfile: Dockerfile
