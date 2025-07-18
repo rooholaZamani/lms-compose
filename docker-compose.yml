@@ -5,6 +5,8 @@ services:
       context: ./backend
       dockerfile: Dockerfile
     container_name: lms-backend
+    ports:
+      - "8080:8080"
     volumes:
       - /root/data:/app/data
       - /root/uploads:/app/uploads
@@ -15,7 +17,6 @@ services:
     networks:
       - lms-network
     restart: unless-stopped
-    # backend را از بیرون در دسترس نیست
 
   frontend:
     image: rooholazamani/lms-frontend:v1.0.8
@@ -23,27 +24,13 @@ services:
       context: ./frontend
       dockerfile: Dockerfile
     container_name: lms-frontend
+    ports:
+      - "80:80"
     environment:
       - NODE_ENV=production
     networks:
       - lms-network
     restart: unless-stopped
-    # frontend را از بیرون در دسترس نیست
-
-  nginx-proxy:
-    image: nginx:alpine
-    container_name: lms-proxy
-    ports:
-      - "80:80"  # تغییر از 443 به 80
-    volumes:
-      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
-    depends_on:
-      - frontend
-      - backend
-    networks:
-      - lms-network
-    restart: unless-stopped
-    # حذف profiles برای اجرای همیشگی
 
 networks:
   lms-network:
