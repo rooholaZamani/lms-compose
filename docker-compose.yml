@@ -1,0 +1,61 @@
+
+services:
+  backend:
+    image: lms-backend:v1.0.8
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: lms-backend
+    ports:
+      - "8080:8080"
+    volumes:
+      - C:\Users\pc\Desktop\lms\data:/app/data
+      - C:\Users\pc\Desktop\lms\uploads:/app/uploads
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - SERVER_PORT=8080
+      - JAVA_OPTS=-Xmx512m -Xms256m
+
+    networks:
+      - lms-network
+    restart: unless-stopped
+
+  frontend:
+    image: lms-frontend:v1.0.8
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: lms-frontend
+    ports:
+      - "80:80"
+    environment:
+    - NODE_ENV=production
+    networks:
+      - lms-network
+    restart: unless-stopped
+
+  nginx-proxy:
+    image: nginx:alpine
+    container_name: lms-proxy
+    ports:
+      - "443:443"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./nginx/ssl:/etc/nginx/ssl:ro
+    depends_on:
+      - frontend
+      - backend
+    networks:
+      - lms-network
+    restart: unless-stopped
+    profiles:
+      - production
+
+networks:
+  lms-network:
+    driver: bridge
+    name: lms-network
+
+volumes:
+  app-data:
+    driver: local
