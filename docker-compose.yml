@@ -1,6 +1,6 @@
 services:
   backend:
-    image: rooholazamani/lms-backend:v1.0.9
+    image: rooholazamani/lms-backend:v1.0.10
     build:
       context: ./backend
       dockerfile: Dockerfile
@@ -19,7 +19,7 @@ services:
     restart: unless-stopped
 
   frontend:
-    image: rooholazamani/lms-frontend:v1.0.9
+    image: rooholazamani/lms-frontend:v1.0.10
     build:
       context: ./frontend
       dockerfile: Dockerfile
