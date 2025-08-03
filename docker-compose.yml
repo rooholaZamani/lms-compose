@@ -1,8 +1,7 @@
 services:
   backend:
-    image: rooholazamani/lms-backend:v1.0.9
     build:
-      context: ./backend
+      context: https://github.com/rooholaZamani/lms.git#main:backend
       dockerfile: Dockerfile
     container_name: lms-backend
     ports:
@@ -19,9 +18,8 @@ services:
     restart: unless-stopped
 
   frontend:
-    image: rooholazamani/lms-frontend:v1.0.9
     build:
-      context: ./frontend
+      context: https://github.com/rooholaZamani/lms_front.git#main:frontend
       dockerfile: Dockerfile
     container_name: lms-frontend
     ports:
@@ -31,6 +29,8 @@ services:
     networks:
       - lms-network
     restart: unless-stopped
+    depends_on:
+      - backend
 
 networks:
   lms-network:
