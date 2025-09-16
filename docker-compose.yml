@@ -9,7 +9,7 @@ services:
     volumes:
       - /srv/lms/data:/app/data
       - /srv/lms/uploads:/app/uploads
-      # - maven-cache:/root/.m2
+      - ~/.m2:/root/.m2
     environment:
       - SPRING_PROFILES_ACTIVE=docker
       - SERVER_PORT=8080
